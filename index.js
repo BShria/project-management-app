@@ -8,14 +8,11 @@ app.use(express.urlencoded({extended:false}));
 app.use(express.static('public'));
 app.use(express.json());
 
-// const uri = "mongodb+srv://adminShria:Shria@123@projectdb.cpmm4xm.mongodb.net/?retryWrites=true&w=majority";
-// const uri = "mongodb://localhost:27017/projectDB";
 const uri = process.env.URI;
 mongoose.connect(uri, { useNewUrlParser: true }).
 catch(err => console.error(err));
 
 const projectSchema = new mongoose.Schema({
-    taskid: Number,
     title: String,
     due: Date,
     priority: String,
@@ -23,14 +20,12 @@ const projectSchema = new mongoose.Schema({
 });
 
 const Project = mongoose.model('Project', projectSchema);
-var projectCount = 0;
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 })
 
 app.get('/allprojects', (req, res) => {
-    // console.log('Finding..');
     Project.find({}, (err, projects) => {
         if(err){
             console.log(err);
@@ -42,9 +37,7 @@ app.get('/allprojects', (req, res) => {
 })
 
 app.post('/newproject', (req,res) => {
-    projectCount += 1;
     const newProject = new Project({
-        // taskid: projectCount,
         title: req.body.title,
         due: req.body.due,
         priority: req.body.priority,
@@ -59,7 +52,7 @@ app.post('/newproject', (req,res) => {
 })
 
 app.patch('/updateproject', (req, res) => {
-    const tid = req.body.id; // for accessing parameters from url then use req.
+    const tid = req.body.id; 
     Project.updateOne(
         {_id: tid},
         {status: 'Completed'},
@@ -73,8 +66,7 @@ app.patch('/updateproject', (req, res) => {
 })
 
 app.delete('/deleteproject', (req, res) => {
-    const tid = req.body.id; // for accessing parameters from url then use req.
-    projectCount -= 1;
+    const tid = req.body.id; 
     Project.deleteOne(
         {_id: tid},
         (err, response) => {
