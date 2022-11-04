@@ -3,6 +3,8 @@
 This is a web application that lets us create, read, update and delete projects
 <br>
 Technologies used:<br>
-Database - MongoDB<br>
+Database - MongoDB
 API - Node.js<br>
-Frontend - HTML, Bootstrap CSS, Vanilla Javascript<br>
+Frontend - HTML5, Bootstrap5, Vanilla Javascript
+
+
